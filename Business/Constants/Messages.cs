@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Entities.Concrete;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -31,5 +32,11 @@ namespace Business.Constants
         public static string CarCouldNotBeHired = "Car could not be hired. Because this car hired from another customer.";
         public static string MaintenanceTime = "Maintenance Time";
         public static string UnknownError = "Unknown error.";
+        public static string AccessTokenCreated = "Token created.";
+        public static string UserAlreadyExists = "Kullanıcı zaten var.";
+        public static string PasswordError = "Şifre hatalı.";
+        public static string SuccessfulLogin = "Giriş başarılı.";
+        public static string UserNotFound = "Kullanıcı bulunamadı.";
+        public static string UserRegistered = "Kullanıcı kayıt edildi.";
     }
 }
