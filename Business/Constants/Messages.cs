@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -38,5 +39,6 @@ namespace Business.Constants
         public static string SuccessfulLogin = "Giriş başarılı.";
         public static string UserNotFound = "Kullanıcı bulunamadı.";
         public static string UserRegistered = "Kullanıcı kayıt edildi.";
+        public static string AuthorizationDenied = "Kullanıcının yetkisi yok.";
     }
 }
