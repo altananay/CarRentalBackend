@@ -20,13 +20,13 @@ namespace Business.Concrete
             _userDal = userDal;
         }
 
-        public IResult Add(Userr user)
+        public IResult Add(User user)
         {
             _userDal.Add(user);
             return new SuccessResult(Messages.UserAdded);
         }
 
-        public IResult Delete(Userr user)
+        public IResult Delete(User user)
         {
             try
             {
@@ -39,22 +39,22 @@ namespace Business.Concrete
             }
         }
 
-        public IDataResult<List<Userr>> GetAll()
+        public IDataResult<List<User>> GetAll()
         {
-            return new SuccessDataResult<List<Userr>>(_userDal.GetAll());
+            return new SuccessDataResult<List<User>>(_userDal.GetAll());
         }
 
-        public Userr GetByMail(string email)
+        public User GetByMail(string email)
         {
             return _userDal.Get(u => u.Email == email);
         }
 
-        public List<OperationClaim> GetClaims(Userr user)
+        public List<OperationClaim> GetClaims(User user)
         {
             return _userDal.GetClaims(user);
         }
 
-        public IResult Update(Userr user)
+        public IResult Update(User user)
         {
             if (user.Id == null || user.Id < 1)
             {

@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class EfUserDal : EfEntityRepositoryBase<Userr, RentACarContext>, IUserDal
+    public class EfUserDal : EfEntityRepositoryBase<User, RentACarContext>, IUserDal
     {
-        public List<OperationClaim> GetClaims(Userr user)
+        public List<OperationClaim> GetClaims(User user)
         {
             using (var context = new RentACarContext())
             {

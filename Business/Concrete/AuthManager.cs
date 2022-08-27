@@ -24,11 +24,11 @@ namespace Business.Concrete
             _tokenHelper = tokenHelper;
         }
 
-        public IDataResult<Userr> Register(UserForRegisterDto userForRegisterDto, string password)
+        public IDataResult<User> Register(UserForRegisterDto userForRegisterDto, string password)
         {
             byte[] passwordHash, passwordSalt;
             HashingHelper.CreatePasswordHash(password, out passwordHash, out passwordSalt);
-            var user = new Userr
+            var user = new User
             {
                 Email = userForRegisterDto.Email,
                 FirstName = userForRegisterDto.FirstName,
@@ -38,23 +38,23 @@ namespace Business.Concrete
                 Status = true
             };
             _userService.Add(user);
-            return new SuccessDataResult<Userr>(user, Messages.UserRegistered);
+            return new SuccessDataResult<User>(user, Messages.UserRegistered);
         }
 
-        public IDataResult<Userr> Login(UserForLoginDto userForLoginDto)
+        public IDataResult<User> Login(UserForLoginDto userForLoginDto)
         {
             var userToCheck = _userService.GetByMail(userForLoginDto.Email);
             if (userToCheck == null)
             {
-                return new ErrorDataResult<Userr>(Messages.UserNotFound);
+                return new ErrorDataResult<User>(Messages.UserNotFound);
             }
 
             if (!HashingHelper.VerifyPasswordHash(userForLoginDto.Password, userToCheck.PasswordHash, userToCheck.PasswordSalt))
             {
-                return new ErrorDataResult<Userr>(Messages.PasswordError);
+                return new ErrorDataResult<User>(Messages.PasswordError);
             }
 
-            return new SuccessDataResult<Userr>(userToCheck, Messages.SuccessfulLogin);
+            return new SuccessDataResult<User>(userToCheck, Messages.SuccessfulLogin);
         }
 
         public IResult UserExists(string email)
@@ -66,7 +66,7 @@ namespace Business.Concrete
             return new SuccessResult();
         }
 
-        public IDataResult<AccessToken> CreateAccessToken(Userr user)
+        public IDataResult<AccessToken> CreateAccessToken(User user)
         {
             var claims = _userService.GetClaims(user);
             var accessToken = _tokenHelper.CreateToken(user, claims);

@@ -40,5 +40,6 @@ namespace Business.Constants
         public static string UserNotFound = "Kullanıcı bulunamadı.";
         public static string UserRegistered = "Kullanıcı kayıt edildi.";
         public static string AuthorizationDenied = "Kullanıcının yetkisi yok.";
+        public static string CarAlreadyExists = "Car already exists.";
     }
 }

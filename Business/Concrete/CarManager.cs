@@ -2,7 +2,11 @@
 using Business.BusinessAspects.Autofac;
 using Business.Constants;
 using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Performance;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
+using Core.Aspects.Caching;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -24,14 +28,18 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-        [SecuredOperation("product.add,admin")]
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
-            //if (car.Description.Length < 5)
-            //{
-            //    return new ErrorDataResult<List<Car>>(Messages.CarCouldNotBeAdded);
-            //}
+            IResult result = BusinessRules.Run(CheckIfProductNameExists(car));
+
+            if (result != null)
+            {
+                return result;
+            }
+
             _carDal.Add(car);
 
             return new SuccessResult(Messages.CarAdded);
@@ -52,11 +60,14 @@ namespace Business.Concrete
 
         }
 
+        [CacheAspect]
         public IDataResult<List<Car>> GetAll()
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarsListed);
         }
 
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAllByBrandId(int id)
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == id));
@@ -77,6 +88,8 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
 
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             if (car.Id == null || car.Id < 1)
@@ -86,6 +99,30 @@ namespace Business.Concrete
             _carDal.Update(car);
 
             return new SuccessResult(Messages.CarAdded);
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            Add(car);
+            if (Convert.ToInt32(car.ModelYear) < 1900)
+            {
+                throw new Exception("Transaction test");
+            }
+            Add(car);
+            return null;
+        }
+
+        private IResult CheckIfProductNameExists(Car car)
+        {
+            var result = _carDal.GetAll(c => c.BrandId == car.BrandId).Any();
+            var result2 = _carDal.GetAll(c => c.Description == car.Description).Any();
+            var result3 = _carDal.GetAll(c => c.ModelYear == car.ModelYear).Any();
+            if (result && result2 && result3)
+            {
+                return new ErrorResult(Messages.CarAlreadyExists);
+            }
+            return new SuccessResult();
         }
     }
 }
