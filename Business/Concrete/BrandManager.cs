@@ -3,6 +3,7 @@ using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
+using Entities.DTOs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,11 @@ namespace Business.Concrete
         public IDataResult<Brand> GetBrandById(int id)
         {
             return new SuccessDataResult<Brand>(_brandDal.Get(b => b.Id == id));
+        }
+
+        public IDataResult<List<BrandDetailDto>> GetBrandImages()
+        {
+            return new SuccessDataResult<List<BrandDetailDto>>(_brandDal.GetBrandImages());
         }
 
         public IResult Update(Brand brand)
