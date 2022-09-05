@@ -37,6 +37,9 @@ namespace Business.DependencyResolvers
             builder.RegisterType<RentalManager>().As<IRentalService>().SingleInstance();
             builder.RegisterType<EfRentalDal>().As<IRentalDal>().SingleInstance();
 
+            builder.RegisterType<FakeCreditCardManager>().As<IFakeCreditCardService>().SingleInstance();
+            builder.RegisterType<EfFakeCreditCardDal>().As<IFakeCreditCardDal>().SingleInstance();
+
             builder.RegisterType<AuthManager>().As<IAuthService>();
             builder.RegisterType<JwtHelper>().As<ITokenHelper>();
 

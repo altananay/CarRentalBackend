@@ -127,12 +127,17 @@ namespace Business.Concrete
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsByBrandId(int id)
         {
-            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetailsByBrandId(id));
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByBrandId(id));
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetailsById(int id)
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarsDetailsById(id));
+        }
+
+        public IDataResult<List<CarDetailDto>> GetCarDetailsByColorId(int id)
+        {
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetailsByColorId(id));
         }
     }
 }

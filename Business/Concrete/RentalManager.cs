@@ -1,5 +1,6 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Core.Utilities.Business;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,16 +23,14 @@ namespace Business.Concrete
 
         public IResult Add(Rental rental)
         {
-            var result = _rentalDal.Get(r => r.CarId == rental.CarId && r.ReturnDate == null);
-            if (result == null)
+            var result = BusinessRules.Run(CheckIfTheCarIsAlreadyRentedInTheSelectedDateRange(rental));
+            if (result != null)
             {
-                _rentalDal.Add(rental);
-                return new SuccessResult(Messages.RentalAdded);
+                return result;
+                
             }
-            else
-            {
-                return new ErrorResult(Messages.CarCouldNotBeHired);
-            }
+            _rentalDal.Add(rental);
+            return new SuccessResult(Messages.RentalAdded);
         }
 
         public IResult Delete(Rental rental)
@@ -68,6 +67,20 @@ namespace Business.Concrete
                 _rentalDal.Update(rental);
                 return new SuccessResult(Messages.RentalUpdated);
             }
+        }
+
+        private IResult CheckIfTheCarIsAlreadyRentedInTheSelectedDateRange(Rental rental)
+        {
+            var result = _rentalDal.Get(r =>
+                r.CarId == rental.CarId
+                && (r.RentDate.Date == rental.RentDate.Date
+                || (r.RentDate.Date < rental.RentDate.Date
+                && (r.ReturnDate == null || ((DateTime)r.ReturnDate).Date > rental.RentDate.Date))));
+
+            if (result != null)
+                return new ErrorResult(Messages.CarCouldNotBeHired);
+
+            return new SuccessResult();
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using Core.Entities.Concrete;
+using Entities.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -41,5 +42,7 @@ namespace Business.Constants
         public static string UserRegistered = "Kullanıcı kayıt edildi.";
         public static string AuthorizationDenied = "Kullanıcının yetkisi yok.";
         public static string CarAlreadyExists = "Car already exists.";
+        public static string PaymentDenied = "Payment denied.";
+        public static string PaymentTransactionSuccessfull = "Payment transaction successful.";
     }
 }
