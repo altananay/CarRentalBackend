@@ -31,7 +31,7 @@ namespace Business.Concrete
             try
             {
                 _colorDal.Delete(color);
-                return new SuccessResult(Messages.CarDeleted);
+                return new SuccessResult(Messages.ColorDeleted);
             }
             catch
             {
@@ -59,7 +59,7 @@ namespace Business.Concrete
             else
             {
                 _colorDal.Update(color);
-                return new SuccessResult(Messages.CarUpdated);
+                return new SuccessResult(Messages.ColorUpdated);
             }
             
         }
