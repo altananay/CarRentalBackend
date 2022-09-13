@@ -52,7 +52,7 @@ namespace Business.Concrete
 
         public IResult Update(Color color)
         {
-            if (color.Id == null || color.Id < 1)
+            if (color.Id == null || color.Id < 1 || color.Name == null)
             {
                 return new ErrorResult(Messages.UnknownError);
             }
