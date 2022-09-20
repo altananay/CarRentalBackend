@@ -34,7 +34,7 @@ namespace Business.Constants
         public static string CarCouldNotBeHired = "Car could not be hired. Because this car hired from another customer.";
         public static string MaintenanceTime = "Maintenance Time";
         public static string UnknownError = "Unknown error.";
-        public static string AccessTokenCreated = "Token created.";
+        public static string LoginSuccessful = "Login successful.";
         public static string UserAlreadyExists = "Kullanıcı zaten var.";
         public static string PasswordError = "Şifre hatalı.";
         public static string SuccessfulLogin = "Giriş başarılı.";
