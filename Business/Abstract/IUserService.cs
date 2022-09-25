@@ -16,6 +16,6 @@ namespace Business.Abstract
         IResult Update(User user);
         //Refactor edilecek.
         List<OperationClaim> GetClaims(User user);
-        User GetByMail(string email);
+        IDataResult<User> GetByMail(string email);
     }
 }
